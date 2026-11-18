@@ -12,5 +12,6 @@ Ideja u jednoj rečenici: ekspert definiše pojmove kursa i preduslove među nji
 | [TODO.md](TODO.md) | Otvoreni zadaci i pitanja |
 | [kontekst/](kontekst/) | Opis teme i proizvoda u koji se rešenje ugrađuje |
 | [literatura/](literatura/) | Spisak radova i po jedna kratka beleška za svaki pročitan rad |
+| [prostor-znanja/](prostor-znanja/) | Postojeći grafovi preduslova (Coherence Map / Learning Commons), skripte i izvučeni podaci |
 | [arhitektura/](arhitektura/) | (kasnije) dizajn agenta i integracija sa My Smart Mentor-om |
 

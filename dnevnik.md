@@ -90,3 +90,67 @@ Najnoviji unos je na dnu. Svaki unos sadrži: šta sam radio, šta sam saznao, �
 - Prvo bi isao diagnostic test da proceni inicijalno stanje u KST-u kao kod ALEKS koji ce morati da se preradi da bude adaptivni (nije jos jasno da li bi bolje radio adaptivni primer ili ne)
 - Primamljivije mi deluje da se krecem horizontalno po tom stablu umesto po dubini, jer se cesto neke lekcije kojih se ne podsecamo zaborave brzo a na ovaj nacin bi drzali to znanje svezim (mozda bi valjalo i to proveriti)
 - Ako se ucenik zaglavi na nekom cvoru to je onda znak da ili je lose procenjeno znanje (gde onda treba ponovno proveriti preduslove ili ih se podsetiti) ili je lose gradivo onda (cuvamo broj pokusaja i oznaku blokiran), pa ako se pojavljuje na vise ucenika onda je mozda problem u gradivu, preporuka moze biti kasnije da nastavi zbog umora (ALEKS samo nezno usmerava na drugu stavku)
+
+---
+
+## 2026-11-14: Da li već postoji gotov prostor znanja za ELA i Math?
+
+**Radio:** Mentor je tražio da proverim postoji li gotov graf za moje teme (40 tema u 9 grupa, ELA + Math). Kolega je predložio Learning Commons i Coherence Map. Preuzeo sam ceo Learning Commons Knowledge Graph (v1.17.0, ~1 GB JSONL), izvukao Math Coherence Map i napisao skriptu koja standarde mapira na moje teme. Proverio sam i ALEKS, Dynamic Learning Maps, Junyi i Tatsuoka podatke. Beleška: [prostor-znanja/postojeci-grafovi.md](prostor-znanja/postojeci-grafovi.md).
+
+**Saznao:**
+- Learning Commons i Coherence Map su praktično **isti graf**. Coherence Map (Student Achievement Partners) je original bez izvoza, a Learning Commons ga nudi kao podatke (406 CCSS math standarda, 757 usmerenih veza + 142 neusmerena para, CC BY 4.0). Preuzimanje radi bez naloga.
+- **Math:** Coherence Map pokriva skoro sve moje math teme, a na nivou standarda je **aciklički**, pa može direktno da posluži kao surmise relacija. Za razrede 4–8 to je 160 čvorova i 253 veze.
+- Kad standarde spojim u **moje teme, pojave se ciklusi** (npr. integers ⇄ fractions, krug u geometriji), jer su teme preširoke. Neke teme imaju samo po jedan standard, a „Logic and reasoning“ nema nijedan.
+- **ELA:** nema gotovog grafa preduslova. Postoje samo standardi po razredima (vertikalna progresija iste veštine), ELA learning components samo za K–2, a hijerarhija veština čitanja je u literaturi sporna.
+- U Learning Commons-u su i **NY Next Gen standardi sa crosswalk-om ka CCSS**. To je korisno jer je SHSAT njujorški test.
+- Eedi misconceptions (8.117 zabluda) mogu kasnije da pomognu agentu da objasni **zašto** je odgovor pogrešan.
+
+**Odlučio:**
+- ✅ Math: Coherence Map je **polazni graf**. KST čvorovi su standardi, a teme iz My Smart Mentor-a su grupe/oznake. Ekspert proverava moje mapiranje.
+- ✅ ELA: graf pravim ručno (eventualno uz LLM) sa polaznom hipotezom *detalj → inference → sinteza*, a ekspert ga potvrđuje. U radu to navodim kao ograničenje.
+- ❌ ALEKS (zatvoren), Dynamic Learning Maps (nema javnog preuzimanja, druga populacija učenika), Junyi (zabranjena komercijalna upotreba, drugi kurikulum).
+- 🟡 Tatsuoka fraction subtraction čuvam kao mali test skup za KST kod.
+
+**Sledeće:** pitati mentora da li je kombinacija preuzetog (math) i ručnog (ELA) grafa prihvatljiva. Zatim mapirati 45 dijagnostičkih pitanja na standarde.
+
+---
+
+## 2026-11-15: ELA izvori vezani za SHSAT i slične testove; broj math čvorova
+
+**Radio:** tražio sam bilo šta za ELA vezano za SHSAT ili slične testove (i zatvorene izvore, samo za ideju). Izračunao sam koliko math čvorova ostaje za različite opsege razreda. Dopunjena beleška: [prostor-znanja/postojeci-grafovi.md](prostor-znanja/postojeci-grafovi.md) (odeljci 6 i 7).
+
+**Saznao:**
+- SHSAT zvanični vodič daje samo sadržaj i usklađenost sa NY standardima, ali ne i graf.
+- **College Board PSAT 8/9 / SAT** veštine se skoro 1:1 poklapaju sa mojim ELA temama, a *Skills Insight* daje opise po 7 nivoa skora. To je progresija **unutar** veštine.
+- Renaissance Star tvrdi da ima graf preduslova za čitanje, ali je zatvoren. ETS CBAL ima nivoe za argumentaciju.
+- Zajedničko za sve ELA izvore: **nivoi unutar veštine, a ne preduslovi između veština**.
+- Math: 406 je ceo K–12 graf. Za razrede 5–8 ostaje 128 čvorova (106 kad se spoje podstandardi), za 6–8 ostaje 101 (81).
+
+**Predlog (još nije odlučeno):**
+- ELA čvor = **veština × nivo**, preduslov = niži nivo iste veštine + par ekspertskih veza između veština.
+- Math: razredi 5–8, podstandardi spojeni osim onih koji su sami tema (Percentages, Rate/time/distance), oko 110 čvorova. Za studiju slučaja verovatno samo 1–2 grupe.
+
+---
+
+## 2026-11-17: Kako Learning Commons, Coherence Map i KST idu zajedno + odluke
+
+**Radio:** napravio nalog na Learning Commons-u, preuzeo dataset *U.S. academic standards* (ELA) i prošao kroz Coherence Map sajt. Kroz razgovor sam razjasnio odnos između izvora i KST-a.
+
+**Saznao:**
+- **Learning Commons knowledge graph nije graf preduslova.** To je baza (~315.000 čvorova, ~551.000 veza) u kojoj su veze uglavnom hijerarhija (`hasChild`), usklađenost (veština/lekcija → standard) i crosswalk-ovi. Jedini graf preduslova u njoj je Math Coherence Map (1.041 veza).
+- **Dataset** je jedan deo baze od jednog izvora (Coherence Map od SAP-a, learning components od Achievement Network-a, misconceptions od Eedi-ja…). Datasetovi su povezani preko standarda.
+- **Smer:** SAP je prvo napravio Coherence Map, a Learning Commons ga je preuzeo (CC0).
+- **Puna strelica** = preduslov (`buildsTowards`), **isprekidana** = povezani standardi bez smera (`relatesTo`).
+- **ELA standards dataset:** 93.544 standarda iz 52 jurisdikcije, uključujući NY (1.148). Jedina vrsta veze je hijerarhija, **nema preduslova**.
+- **Crosswalk** je tabela prevoda između NY i CCSS standarda, izračunata preko zajedničkih learning components (mera *jaccard*). Za NY math 5–8: 166 od 167 standarda ima par u CCSS-u, a 153 su isti. **13 se razlikuje** (NY je pomerio ili promenio gradivo). Za NY ELA crosswalk ne postoji.
+- **Datumi:** standardi su menjani 2025–2026, crosswalk je nov (2026-11-06), a Coherence Map veze nemaju datum (dataset ažuriran 2025-09-23).
+- **Odnos sa KST-om:** Coherence Map daje strelice (relaciju preduslova). KST od njih pravi dozvoljena stanja znanja, procenu i outer fringe. Learning Commons je izvor **sadržaja** po čvoru (tekst standarda, learning components, misconceptions, IM lekcije), dakle RAG, a ne deo KST-a.
+
+**Odlučio:**
+- ✅ **KST čvor = CCSS standard.** Learning components nisu čvorovi (nemaju veze među sobom), nego sadržaj za lekciju i procenu.
+- ✅ Svaki čvor ima polja `ccss_kod` (glavni ključ), `ny_kod` (iz crosswalk-a, za SHSAT i dijagnostiku) i `msm_topics` (**lista**, jer standard može da pripada u više tema, npr. 7.RP.A.3).
+- ✅ **Math: razredi 5–8** (~110 čvorova).
+- ✅ `buildsTowards` tretiram kao **strog preduslov** (KST), uz napomenu u radu da izvor kaže „verovatno“.
+- ✅ **Studija slučaja: ceo SHSAT** (ELA + Math).
+- ✅ **Ekspert sam ja.** Ja pregledam veze, mapiranje na teme i 13 NY standarda koji se razlikuju.
+- ✅ **ELA model: veština × nivo** (npr. Main idea 1 → 2 → 3). Nivoi dolaze iz razreda 6/7/8 ili iz Skills Insight bendova. Preduslov je niži nivo iste veštine, plus moje veze između veština (npr. Evidence → Inference → Main idea).

@@ -1,0 +1,9 @@
+.DS_Store
+
+# Sirovi podaci iz Learning Commons-a (veliki, mogu se ponovo preuzeti)
+prostor-znanja/podaci/ela-standards/
+prostor-znanja/podaci/*.zip
+*.jsonl
+
+
+prostor-znanja/vodic-za-proveru.md
